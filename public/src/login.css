@@ -1,0 +1,99 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background:#fffdfd;
+}
+.login-box {
+    position: relative;
+    width: 400px;
+}
+.login-box form {
+    width: 100%;
+    padding: 9 50px;
+}
+h2 {
+    font-size: 2em;
+    color: #4CAF50;
+    text-align: center;
+}
+.input-box {
+    position: relative;
+    margin: 25px 0;
+}
+.input-box input {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: 2px solid #009105;
+    outline: none;
+    font-size: 1em;
+    color: #fff;
+    padding: 0 20px;
+    border-radius: 40px;
+    transition: .5s ease;
+}
+.input-box input:focus,
+.input-box input:valid {
+    border-color: #5dda61;
+    color: #5dda61;
+}
+.input-box label {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: #009105;
+    pointer-events: none;
+    transition: .5s ease;
+}
+.input-box input:focus~label,
+.input-box input:valid~label {
+    top: 1px;
+    font-size: .8em;
+    background: #fffdfd;
+    padding: 0 6px;
+    color: #5dda61;
+}
+.forgot-pass {
+    margin: -15px 0 10px;
+    text-align: center;
+}
+.forgot-pass a {
+    font-size: .85em;
+    color: #009105;
+    text-decoration: none;
+}
+.forgot-pass a:hover {
+    text-decoration: underline;
+}
+.bth {
+    width: 100%;
+    height: 50px;
+    background-color: #4CAF50;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 1em;
+    color: #fff;
+    font-weight: 600;
+}
+.metamask-link {
+    margin: 20px 0 10px;
+    text-align: center;
+}
+.metamask-link a {
+    font-size: 1em;
+    text-decoration: none;
+    font-weight: 600;
+    color: #006803;
+}

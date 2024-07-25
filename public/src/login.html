@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registretion to the System</title>
+    <link rel="stylesheet" type="text/css" href="login.css">
+    <script defer src="renderer.js"></script>
+</head>
+<body>
+    <div class="login-box">
+        <h2>Login</h2>
+        <form action="#" id = 'loginForm'>
+            <div class="input-box">
+                <input required>
+                <label>User Address</label>
+            </div>
+            <div class="input-box">
+                <input type="password" required>
+                <label>Private Key</label>
+            </div>
+            <div class="forgot-pass">
+                <a href="#">Lost your Private-Key?</a>
+            </div>
+            <button type="submit" class="bth" id = 'connectButton'>Login</button>
+            <div class="metamask-link">
+                <a href="#">Link to Metamask</a>
+            </div>
+        </form>
+    </div>
+    <script>
+        const connectButton = document.getElementById('connectButton');
+        const loginForm = document.getElementById('loginForm');
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            window.ipcRenderer.send('login-success');
+        });
+    </script>
+</body>
+</html>

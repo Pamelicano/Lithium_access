@@ -1,0 +1,142 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    background-color: #45a049;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+.header button {
+    background-color: #009105;
+    border-radius: 10px;
+    width: 75px;
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.header button:hover {
+    
+    background-color: #2fff3a;
+}
+
+.container {
+    display: flex;
+    flex: 1;
+    height: calc(100% - 60px);
+}
+
+.left-section {
+    flex: 0 0 30%;
+    background-color: #f0f0f0;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.right-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 20px;
+}
+
+.top-right {
+    flex: 1;
+    background-color: #e0e0e0;
+    padding: 20px;
+    margin-bottom: 10px;
+    overflow-y: auto;
+}
+
+.bottom-right {
+    height: 200px;
+    background-color: #000;
+    color: #fff;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+#terminal {
+    height: 100%;
+    overflow-y: auto;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin: 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-box {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.input-box input {
+    width: calc(100% - 40px);
+    padding: 10px 20px;
+    font-size: 1em;
+    color:#58e75d;
+    border: 2px solid #067f0a;
+    border-radius: 20px;
+    outline: none;
+    transition: 0.3s ease;
+}
+
+.input-box input:focus {
+    border-color: #58e75d;
+}
+
+.input-box label {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: #009105;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+.input-box input:focus + label,
+.input-box input:not(:placeholder-shown) + label {
+    top: 5px;
+    font-size: 0.8em;
+    color: #4CAF50;
+}
+
+.bth {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1em;
+    color: #fff;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.bth:hover {
+    background-color: #45a049;
+}

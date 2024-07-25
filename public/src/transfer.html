@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register User</title>
+    <link rel="stylesheet" type="text/css" href="commandline.css">
+    <script src="scripts.js" defer></script>
+    <script defer src="renderer.js"></script>
+</head>
+<body>
+    <header class="header">
+        <h1>Transfer OwnerShip</h1>
+        <button onclick="window.location.href='index.html'">  Back </button>
+    </header>
+    <div class="container">
+        <div class="left-section">
+            <form id="transfer">
+                <div class="input-box">
+                    <input type="text" id="userAddress" required placeholder=" ">
+                    <label>New Owner Address</label>
+                </div>
+                <button type="submit" class="bth" id="registerUser">Submit</button>
+            </form>
+        </div>
+        <div class="right-section">
+            <div class="top-right">
+                <p>Текст в верхнем блоке правой секции.</p>
+            </div>
+            <div class="bottom-right" id="terminal">
+                <pre id="terminal-output"></pre>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="module">
+        import { loadWeb3, registerUser } from './contractMethods.js';
+
+        document.getElementById('transfer').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const userAddress = document.getElementById('userAddress').value;
+            const userRole = document.getElementById('userRole').value;
+            try {
+                const receipt = await registerUser(userAddress, userRole);
+                displayOutput(`Transaction successful: ${receipt.transactionHash}`);
+            } catch (error) {
+                displayOutput(`Error: ${error.message}`);
+            }
+        });
+
+        function displayOutput(output) {
+            const terminalOutput = document.getElementById('terminal-output');
+            terminalOutput.innerText += output + '\n';
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+
+        window.addEventListener('load', async () => {
+            await loadWeb3();
+        });
+    </script>
+</body>
+</html>

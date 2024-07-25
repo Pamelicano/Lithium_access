@@ -1,0 +1,175 @@
+
+/* Reset CSS */ 
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+} 
+
+body { 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f8f8; 
+} 
+
+.header { 
+  background-color: #333; 
+  color: #fff; 
+  padding: 20px; 
+  text-align: center;
+} 
+
+.header h1 { 
+  margin-bottom: 10px; 
+} 
+
+nav ul { 
+  list-style-type: none; 
+} 
+
+nav ul li { 
+  display: inline; 
+  margin-right: 20px; 
+} 
+
+nav ul li a { 
+  color: #fff; 
+  text-decoration: none; 
+} 
+
+.profile-selection { 
+  width: 250px; 
+  height: 500px; 
+  border-radius: 10px; 
+  background-color: #fff; 
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
+  position: fixed; 
+  top: 10px;  
+  left: -230px;  
+  transition: left 0.3s ease; 
+  z-index: 999; 
+  padding: 20px; 
+} 
+
+.profile-selection.open { 
+  left: 0;  
+} 
+
+.user-info { 
+  display: flex; 
+  align-items: center; 
+  flex-direction: column; 
+  margin-bottom: 20px; 
+  padding: 10px; 
+} 
+
+.avatar { 
+  width: 70px; 
+  height: 70px; 
+  background-color: #ccc;  
+  border-radius: 50%; 
+  margin-right: 20px; 
+} 
+
+.user-details { 
+  flex: 1; 
+} 
+
+
+.profile-selection button { 
+  background-color: #f44336;  
+  color: white; 
+  border: none; 
+  padding: 10px 20px; 
+  font-size: 16px; 
+  cursor: pointer; 
+  border-radius: 5px; 
+} 
+
+#logOutButton { 
+  background-color: #FFCDD2;  
+  align-self: flex-end;
+} 
+
+.main { 
+  display: flex;
+  justify-content: space-around;
+  padding: 20px; 
+} 
+
+.section { 
+  margin-bottom: 30px; 
+} 
+
+.section h2 { 
+  margin-bottom: 10px; 
+} 
+
+.command-line button { 
+  background-color: #4CAF50; 
+  color: white; 
+  border: none; 
+  width: 250px;
+  padding: 10px 20px; 
+  text-align: center; 
+  text-decoration: none; 
+  display: block; 
+  flex-direction: column; 
+  font-size: 16px; 
+  margin: 4px 2px; 
+  cursor: pointer; 
+  border-radius: 5px; 
+} 
+
+.tablet table { 
+  width: 500px; 
+  border-collapse: collapse; 
+
+} 
+
+.tablet th, .tablet td { 
+  border: 1px solid #ddd; 
+  padding: 20px; 
+  text-align: left; 
+} 
+
+.tablet th { 
+  background-color: #4CAF50; 
+  color: white; 
+} 
+
+
+.right-column table {  
+  width: 400px; 
+  border-collapse: collapse; 
+} 
+
+.right-column th, 
+.right-column td {  
+  border: 1px solid #ddd; 
+  padding: 8px; 
+  text-align: left; 
+} 
+
+.right-column th {  
+  background-color: #4CAF50; 
+  color: white; 
+} 
+
+.footer { 
+  background-color: #333; 
+  color: #fff; 
+  padding: 40px; 
+  position: fixed;
+  text-align: center;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+#online {
+  color: #4CAF50;
+}
+#offline {
+  color: #f44336;
+}
+

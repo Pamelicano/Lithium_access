@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get User Role</title>
+    <link rel = "stylesheet" type="text/css" href="commandline.css"></link>
+    <script src="scripts.js" defer></script>
+    <script defer src="renderer.js"></script>
+</head>
+<header class="header" id="header">
+    <h1>Get User Role</h1>
+    <button onclick="window.location.href='index.html'">  Back </button>
+</header>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <form action="#" id="getur">
+                <div class="input-box">
+                    <input type="text" id="userAddress" required placeholder=" ">
+                    <label for="userAddress">User Address</label>
+                </div>
+                <button type="submit" class="bth" id="getUserRole">Submit</button>
+            </form>
+        </div>
+        <div class="right-section">
+            <div class="top-right">
+                <p>Текст в верхнем блоке правой секции.</p>
+            </div>
+            <div class="bottom-right" id="terminal">
+                <pre id="terminal-output"></pre>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { ipcRenderer } from 'electron';
+        import { loadWeb3, getUserRole } from './contractMethods.js';
+
+        function executeCommand(command) {
+            ipcRenderer.send('run-command', command);
+        }
+
+        ipcRenderer.on('command-output', (event, output) => {
+            document.getElementById('terminal-output').innerText += output + '\n';
+            const terminalOutput = document.getElementById('terminal-output');
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        });
+
+        document.getElementById('getur').addEventListener('getUserRole', async (e) => {
+            e.preventDefault();
+            const userAddress = document.getElementById('userAddress').value;
+            try {
+                await loadWeb3();
+                const role = await getUserRole(userAddress);
+                const output = `User Role: ${role}`;
+                executeCommand(output);
+            } catch (error) {
+                executeCommand(`Error: ${error.message}`);
+            }
+        });
+    </script>
+</body>
+</html>
