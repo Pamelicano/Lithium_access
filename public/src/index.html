@@ -7,6 +7,25 @@
     <link rel="stylesheet" type="text/css" href="index.css">
     <script src="scripts.js" defer></script>
     <script defer src="renderer.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userAddressSpan = document.getElementById('userAddress');
+            const userEmailSpan = document.getElementById('email');
+            const userRoleSpan = document.getElementById('userRole');
+            
+            const userAddress = localStorage.getItem('userAddress');
+            const userEmail = localStorage.getItem('email');
+            const userRole = localStorage.getItem('userRole');
+
+            const truncatedAddress = userAddress && userAddress.length > 20 
+            ? userAddress.substring(0, 20) + '...' 
+            : userAddress;
+
+            userAddressSpan.textContent = truncatedAddress || 'Not Available';
+            userEmailSpan.textContent = userEmail || 'useremail@example.com';
+            userRoleSpan.textContent = userRole || 'Owner';
+        });
+    </script>
 </head>
 <body>
     <header class="header" id="header">
@@ -28,12 +47,12 @@
                 <div style="height: 20px;"></div>
                 <div class="user-details">
                     <h3>User Address:</h3>
-                    <span id="userAddress">0xf39Fd6e51aad88F6F4...</span>
+                    <span id="userAddress"></span>
                     <div style="height: 5px;"></div>
                     <h3>User Email:</h3>
-                    <span id="userEmail">user@example.com</span>
+                    <span id="userEmail"></span>
                     <div style="height: 5px;"></div>
-                    <h3>User Role: <span style="color:  #4CAF50;" id="userRole">Owner</span></h3>
+                    <h3>User Role: <span style="color:  #4CAF50;" id="userRole"></span></h3>
                 </div>
             </div>
             <button id="logoutButton" onclick="navigate('login.html')">Log Out</button>

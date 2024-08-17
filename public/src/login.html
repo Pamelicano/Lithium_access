@@ -34,6 +34,13 @@
 
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            const userAddress = loginForm.elements[0].value;
+            const privateKey = loginForm.elements[1].value;
+
+            localStorage.setItem('userAddress', userAddress);
+            localStorage.setItem('email', 'neverlandheh@gmail.com');
+            localStorage.setItem('userRole', 'Owner');
+
             window.ipcRenderer.send('login-success');
         });
     </script>
