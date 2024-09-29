@@ -15,7 +15,7 @@ This project is an educational demonstration of an access control management sys
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/yourusername/Lithium_access.git
+    git clone https://github.com/Pamelicano/Lithium_access.git
     ```
 
 2. **Navigate to the project directory:**
