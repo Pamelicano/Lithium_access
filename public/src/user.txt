@@ -1,0 +1,3 @@
+user1,password1,Owner
+user2,password2,Admin
+user3,password3,user

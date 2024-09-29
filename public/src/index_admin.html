@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Management System</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script src="scripts.js" defer></script>
+    <script defer src="renderer.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userAddressSpan = document.getElementById('userAddress');
+            const userEmailSpan = document.getElementById('email');
+            const userRoleSpan = document.getElementById('userRole');
+            
+            const userAddress = localStorage.getItem('userAddress');
+            const userEmail = localStorage.getItem('email');
+            const userRole = localStorage.getItem('userRole');
+
+            const truncatedAddress = userAddress && userAddress.length > 20 
+            ? userAddress.substring(0, 20) + '...' 
+            : userAddress;
+
+            userAddressSpan.textContent = truncatedAddress || 'Not Available';
+            userEmailSpan.textContent = userEmail || 'useremail@example.com';
+            userRoleSpan.textContent = userRole || 'Owner';
+        });
+    </script>
+</head>
+<body>
+    <header class="header" id="header">
+        <!-- Head part with a title of a project LITHIUM and top menu-->
+        <h1>LITHIUM Access Management System</h1>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="navigate('index.html')">Home</a></li>
+                <li><a href="#" onclick="navigate('Contact.html')">Contract</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="main" id="main">
+        <!-- Main Content for all ACS-->
+        <section class="profile-selection" id="profile">
+            <h1 style="text-align: center;">User Profile</h1>
+            <div class="user-info">
+                <div class="avatar"></div>
+                <div style="height: 20px;"></div>
+                <div class="user-details">
+                    <h3>User Address:</h3>
+                    <span id="userAddress"></span>
+                    <div style="height: 5px;"></div>
+                    <h3>User Email:</h3>
+                    <span id="userEmail"></span>
+                    <div style="height: 5px;"></div>
+                    <h3>User Role: <span style="color:  #4CAF50;" id="userRole"></span></h3>
+                </div>
+            </div>
+            <button id="logoutButton" onclick="navigate('login.html')">Log Out</button>
+        </section>
+        <section class="left-column">
+            <!-- Command section (GetUserRole, AssignUserRole, registerUser, LogOut) and Company Information -->
+            <section class="command-line" id="command">
+                <h2>Command Line</h2>
+                <button onclick="navigate('getur.html')">Get User Role</button>
+                <button onclick="navigate('asignur.html')">Assign User Role</button>
+            </section>
+        </section>
+        <section class="right-column">
+            <!-- Table of all users with their role and status online/offline -->
+            <h2>All Users</h2>
+            <table id="usersTable">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Rows will be dynamically added here -->
+                </tbody>
+              </table>
+              <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
+              <script src="block_renderer.js"></script>
+            <div style="height: 50px;"></div>
+        </section>
+    </main>
+    <footer class="footer" id="footer">
+        <!-- Contacts with a developer and version of the program -->
+        <a href="https://github.com/Pamelicano/Lithium_access", style="color: #fff;">Contact with a developer on GitHub</a>
+        <p>Version: 1.0.0</p>
+    </footer>
+</body>
+</html>

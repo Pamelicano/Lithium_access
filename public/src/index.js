@@ -23,7 +23,7 @@ function createLoginWindow() {
     },
   });
 
-  loginWindow.loadFile('login.html');
+  loginWindow.loadFile('index.html');
 }
 
 app.whenReady().then(() => {

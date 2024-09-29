@@ -8,24 +8,50 @@
     <script src="scripts.js" defer></script>
     <script defer src="renderer.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const userAddressSpan = document.getElementById('userAddress');
             const userEmailSpan = document.getElementById('email');
             const userRoleSpan = document.getElementById('userRole');
             
+            // Извлечение сохраненного логина из localStorage
             const userAddress = localStorage.getItem('userAddress');
             const userEmail = localStorage.getItem('email');
-            const userRole = localStorage.getItem('userRole');
+    
+            if (userAddress) {
+                // Чтение файла users.txt
+                const response = await fetch('user.txt');
+                const usersData = await response.text();
 
-            const truncatedAddress = userAddress && userAddress.length > 20 
-            ? userAddress.substring(0, 20) + '...' 
-            : userAddress;
+                console.log('Achive users data: ', usersData);
+    
+                // Разбор данных файла
+                const users = usersData.split('\n').map(line => {
+                    const [username, password, role] = line.trim().split(',');
+                    return { username, role };
+                });
 
-            userAddressSpan.textContent = truncatedAddress || 'Not Available';
-            userEmailSpan.textContent = userEmail || 'useremail@example.com';
-            userRoleSpan.textContent = userRole || 'Owner';
+                console.log('Users massive', users);
+                
+                // Поиск пользователя по его логину
+                const user = users.find(user => user.username === userAddress);
+    
+                // Проверка и вывод данных на страницу
+                const truncatedAddress = userAddress.length > 20 
+                    ? userAddress.substring(0, 20) + '...' 
+                    : userAddress;
+    
+                userAddressSpan.textContent = truncatedAddress;
+                userEmailSpan.textContent = userEmail || 'useremail@example.com';
+                userRoleSpan.textContent = user ? user.role : 'Role not found';
+            } else {
+                // Если нет данных в localStorage
+                userAddressSpan.textContent = 'Not Available';
+                userEmailSpan.textContent = 'useremail@example.com';
+                userRoleSpan.textContent = 'Role not found';
+            }
         });
     </script>
+    
 </head>
 <body>
     <header class="header" id="header">

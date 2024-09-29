@@ -32,16 +32,41 @@
         const connectButton = document.getElementById('connectButton');
         const loginForm = document.getElementById('loginForm');
 
-        loginForm.addEventListener('submit', (e) => {
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const userAddress = loginForm.elements[0].value;
             const privateKey = loginForm.elements[1].value;
 
-            localStorage.setItem('userAddress', userAddress);
-            localStorage.setItem('email', 'neverlandheh@gmail.com');
-            localStorage.setItem('userRole', 'Owner');
+            // Чтение данных из файла users.txt
+            const response = await fetch('user.txt');
+            const usersData = await response.text();
 
-            window.ipcRenderer.send('login-success');
+            // Разбор содержимого файла
+            const users = usersData.split('\n').map(line => {
+                const [username, password, role] = line.trim().split(',');
+                return { username, password, role };
+            });
+
+            const user = users.find(user => user.username === userAddress && user.password === privateKey);
+
+            if (user) {
+                // Сохранение данных в localStorage
+                localStorage.setItem('userAddress', user.username);
+                localStorage.setItem('email', 'user@example.com');  
+                localStorage.setItem('userRole', user.role);
+
+            // Перенаправление в зависимости от роли
+                if (user.role === 'Owner') {
+                    window.location.href = 'index.html';
+
+                } else if (user.role === 'Admin') {
+                    window.location.href = 'index_admin.html';
+                } else {
+                    window.location.href = 'index_user.html';
+                }
+            } else {
+                alert('Wrong login or password');
+            }
         });
     </script>
 </body>
