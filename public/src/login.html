@@ -37,11 +37,11 @@
             const userAddress = loginForm.elements[0].value;
             const privateKey = loginForm.elements[1].value;
 
-            // Чтение данных из файла users.txt
+            // READS
             const response = await fetch('user.txt');
             const usersData = await response.text();
 
-            // Разбор содержимого файла
+            // INVOLVED
             const users = usersData.split('\n').map(line => {
                 const [username, password, role] = line.trim().split(',');
                 return { username, password, role };
@@ -50,15 +50,18 @@
             const user = users.find(user => user.username === userAddress && user.password === privateKey);
 
             if (user) {
-                // Сохранение данных в localStorage
+                // ADD LOCALSTORAGE
                 localStorage.setItem('userAddress', user.username);
                 localStorage.setItem('email', 'user@example.com');  
                 localStorage.setItem('userRole', user.role);
 
-            // Перенаправление в зависимости от роли
+                //CONSOLE
+                console.log('Saved role:', user.role);
+                console.log('All localStorage:', localStorage);
+
+                //DEPENDS
                 if (user.role === 'Owner') {
                     window.location.href = 'index.html';
-
                 } else if (user.role === 'Admin') {
                     window.location.href = 'index_admin.html';
                 } else {
@@ -68,6 +71,7 @@
                 alert('Wrong login or password');
             }
         });
+
     </script>
 </body>
 </html>

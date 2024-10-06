@@ -23,7 +23,7 @@ function createLoginWindow() {
     },
   });
 
-  loginWindow.loadFile('index.html');
+  loginWindow.loadFile('login.html');
 }
 
 app.whenReady().then(() => {
@@ -88,27 +88,27 @@ ipcMain.on('navigate', (event, page) => {
 });
 
 
-ipcMain.handle('login', async () => {
-  const result = await login();
-  return result;
-});
+// ipcMain.handle('login', async () => {
+//   const result = await login();
+//   return result;
+// });
 
-ipcMain.handle('logout', async () => {
-  const result = await logout();
-  return result;
-});
+// ipcMain.handle('logout', async () => {
+//   const result = await logout();
+//   return result;
+// });
 
-ipcMain.handle('registerUser', async (event, userAddress, userRole) => {
-  const result = await registerUser(userAddress, userRole);
-  return result;
-});
+// ipcMain.handle('registerUser', async (event, userAddress, userRole) => {
+//   const result = await registerUser(userAddress, userRole);
+//   return result;
+// });
 
-ipcMain.handle('assignUserRole', async (event, userAddress, userRole) => {
-  const result = await assignUserRole(userAddress, userRole);
-  return result;
-});
+// ipcMain.handle('assignUserRole', async (event, userAddress, userRole) => {
+//   const result = await assignUserRole(userAddress, userRole);
+//   return result;
+// });
 
-ipcMain.handle('getUserRole', async (event, userAddress) => {
-  const result = await getUserRole(userAddress);
-  return result;
-});
+// ipcMain.handle('getUserRole', async (event, userAddress) => {
+//   const result = await getUserRole(userAddress);
+//   return result;
+// });

@@ -74,6 +74,20 @@ nav ul li a {
   flex: 1; 
 } 
 
+.user-details span {
+  color: #4CAF50;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: rgba(76, 175, 80, 0.1);
+  border-radius: 5px;
+  padding: 5px 10px;
+  transition: background-color 0.3s ease;
+}
+
+.user-details span:hover {
+  background-color: rgba(76, 175, 80, 0.3);
+  cursor: pointer;
+}
 
 .profile-selection button { 
   background-color: #f44336;  

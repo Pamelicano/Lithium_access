@@ -8,24 +8,14 @@
     <script src="scripts.js" defer></script>
     <script defer src="renderer.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const userAddressSpan = document.getElementById('userAddress');
-            const userEmailSpan = document.getElementById('email');
-            const userRoleSpan = document.getElementById('userRole');
-            
-            const userAddress = localStorage.getItem('userAddress');
-            const userEmail = localStorage.getItem('email');
-            const userRole = localStorage.getItem('userRole');
+        function logout() {
+            localStorage.removeItem('userAddress');
+            localStorage.removeItem('email');
+            localStorage.removeItem('userRole');
 
-            const truncatedAddress = userAddress && userAddress.length > 20 
-            ? userAddress.substring(0, 20) + '...' 
-            : userAddress;
-
-            userAddressSpan.textContent = truncatedAddress || 'Not Available';
-            userEmailSpan.textContent = userEmail || 'useremail@example.com';
-            userRoleSpan.textContent = userRole || 'Owner';
-        });
-    </script>
+            window.location.href = 'login.html';
+        }
+    </script>  
 </head>
 <body>
     <header class="header" id="header">
@@ -52,15 +42,16 @@
                     <h3>User Email:</h3>
                     <span id="userEmail"></span>
                     <div style="height: 5px;"></div>
-                    <h3>User Role: <span style="color:  #4CAF50;" id="userRole"></span></h3>
+                    <h3>User Role:</h3>
+                    <span id="userRole">User</span>
                 </div>
             </div>
-            <button id="logoutButton" onclick="navigate('login.html')">Log Out</button>
+            <button id="logoutButton" onclick="logout()">Log Out</button>
         </section>
         <section class="left-column">
             <!-- Command section (GetUserRole, AssignUserRole, registerUser, LogOut) and Company Information -->
             <section class="command-line" id="command">
-                
+                <h2>Command Line</h2>
             </section>
         </section>
         <section class="right-column">
@@ -81,6 +72,31 @@
               <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
               <script src="block_renderer.js"></script>
             <div style="height: 50px;"></div>
+            <script>
+                document.addEventListener('DOMContentLoaded', async () => {
+                    console.log('DOM полностью загружен');
+                    const userAddressSpan = document.getElementById('userAddress');
+                    const userEmailSpan = document.getElementById('email');
+                    
+                    const userAddress = localStorage.getItem('userAddress');
+                    const userEmail = localStorage.getItem('email');
+
+                    console.log('All retrieved localStorage data:', localStorage);
+
+                    if (userAddress) {
+                        const truncatedAddress = userAddress.length > 20 
+                            ? userAddress.substring(0, 20) + '...' 
+                            : userAddress;
+
+                        userAddressSpan.textContent = truncatedAddress;
+                        userEmailSpan.textContent = 'useremail@example.com';
+
+                    } else {
+                        userAddressSpan.textContent = 'Not Available';
+                        userEmailSpan.textContent = 'useremail@example.com';
+                    }
+                });
+            </script>   
         </section>
     </main>
     <footer class="footer" id="footer">

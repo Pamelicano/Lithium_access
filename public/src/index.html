@@ -8,50 +8,14 @@
     <script src="scripts.js" defer></script>
     <script defer src="renderer.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const userAddressSpan = document.getElementById('userAddress');
-            const userEmailSpan = document.getElementById('email');
-            const userRoleSpan = document.getElementById('userRole');
-            
-            // Извлечение сохраненного логина из localStorage
-            const userAddress = localStorage.getItem('userAddress');
-            const userEmail = localStorage.getItem('email');
-    
-            if (userAddress) {
-                // Чтение файла users.txt
-                const response = await fetch('user.txt');
-                const usersData = await response.text();
+        function logout() {
+            localStorage.removeItem('userAddress');
+            localStorage.removeItem('email');
+            localStorage.removeItem('userRole');
 
-                console.log('Achive users data: ', usersData);
-    
-                // Разбор данных файла
-                const users = usersData.split('\n').map(line => {
-                    const [username, password, role] = line.trim().split(',');
-                    return { username, role };
-                });
-
-                console.log('Users massive', users);
-                
-                // Поиск пользователя по его логину
-                const user = users.find(user => user.username === userAddress);
-    
-                // Проверка и вывод данных на страницу
-                const truncatedAddress = userAddress.length > 20 
-                    ? userAddress.substring(0, 20) + '...' 
-                    : userAddress;
-    
-                userAddressSpan.textContent = truncatedAddress;
-                userEmailSpan.textContent = userEmail || 'useremail@example.com';
-                userRoleSpan.textContent = user ? user.role : 'Role not found';
-            } else {
-                // Если нет данных в localStorage
-                userAddressSpan.textContent = 'Not Available';
-                userEmailSpan.textContent = 'useremail@example.com';
-                userRoleSpan.textContent = 'Role not found';
-            }
-        });
-    </script>
-    
+            window.location.href = 'login.html';
+        }
+    </script>  
 </head>
 <body>
     <header class="header" id="header">
@@ -73,15 +37,19 @@
                 <div style="height: 20px;"></div>
                 <div class="user-details">
                     <h3>User Address:</h3>
+                    <div style="height: 5px;"></div>
                     <span id="userAddress"></span>
                     <div style="height: 5px;"></div>
                     <h3>User Email:</h3>
+                    <div style="height: 5px;"></div>
                     <span id="userEmail"></span>
                     <div style="height: 5px;"></div>
-                    <h3>User Role: <span style="color:  #4CAF50;" id="userRole"></span></h3>
+                    <h3>User Role:</h3>
+                    <div style="height: 5px;"></div>
+                    <span id="userRole">Owner</span>
                 </div>
             </div>
-            <button id="logoutButton" onclick="navigate('login.html')">Log Out</button>
+            <button id="logoutButton" onclick="logout()">Log Out</button>
         </section>
         <section class="left-column">
             <!-- Command section (GetUserRole, AssignUserRole, registerUser, LogOut) and Company Information -->
@@ -112,6 +80,31 @@
               <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
               <script src="block_renderer.js"></script>
             <div style="height: 50px;"></div>
+            <script>
+                document.addEventListener('DOMContentLoaded', async () => {
+                    console.log('DOM полностью загружен');
+                    const userAddressSpan = document.getElementById('userAddress');
+                    const userEmailSpan = document.getElementById('email');
+                    
+                    const userAddress = localStorage.getItem('userAddress');
+                    const userEmail = localStorage.getItem('email');
+
+                    console.log('All retrieved localStorage data:', localStorage);
+
+                    if (userAddress) {
+                        const truncatedAddress = userAddress.length > 20 
+                            ? userAddress.substring(0, 20) + '...' 
+                            : userAddress;
+
+                        userAddressSpan.textContent = truncatedAddress;
+                        userEmailSpan.textContent = 'useremail@example.com';
+
+                    } else {
+                        userAddressSpan.textContent = 'Not Available';
+                        userEmailSpan.textContent = 'useremail@example.com';
+                    }
+                });
+            </script>   
         </section>
     </main>
     <footer class="footer" id="footer">
