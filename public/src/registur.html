@@ -6,6 +6,8 @@
     <title>Register User</title>
     <link rel="stylesheet" type="text/css" href="commandline.css">
     <script src="scripts.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
+    <script src="contractMethods.js" defer></script> 
     <script defer src="renderer.js"></script>
 </head>
 <body>
@@ -44,7 +46,7 @@
         document.getElementById('getur').addEventListener('submit', async (e) => {
             e.preventDefault();
             const userAddress = document.getElementById('userAddress').value;
-            const userRole = document.getElementById('userRole').value;
+            const userRole = parseInt(document.getElementById('userRole').value);
             try {
                 const receipt = await registerUser(userAddress, userRole);
                 displayOutput(`Transaction successful: ${receipt.transactionHash}`);

@@ -1,24 +1,25 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-// const {Web3} = require('web3');
+const {Web3} = require('web3');
 
-// const localhost = '';
-// const contractAddress = '';
-// const contractABI = require("").abi;
+const localhost = 'http://127.0.0.1:8545';
+const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+const contractABI = require("C:/Users/never/OneDrive/Рабочий стол/new program files/artifacts/contracts/Lock.sol/AccessControlList.json").abi;
 
-let mainWindow;
-let loginWindow;
+let mainWindow, loginWindow, splashWindow;
+
 
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
-
+//0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
 function createLoginWindow() {
   loginWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
       enableRemoteModule: false,
     },
   });
@@ -26,9 +27,44 @@ function createLoginWindow() {
   loginWindow.loadFile('login.html');
 }
 
-app.whenReady().then(() => {
+function createSplashWindow() {
+  splashWindow = new BrowserWindow({
+    width: 600,
+    height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+    },
+  });
+  splashWindow.loadFile('splash.html');
+}
+
+
+async function checkLocalHostConnection() {
+  try {
+    const web3 = new Web3(localhost);
+    const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+    await contract.methods.getUserRole('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266').call();
+    return true;
+  } catch (error) {
+    console.error('Unable to connect to localhost:', error);
+    return false;
+  }
+}
+
+
+app.whenReady().then(async () => {
   createLoginWindow();
-  // connectToLocalHost(); 
+  // createSplashWindow();
+  // const isConnected = await checkLocalHostConnection();
+  // if (isConnected) {
+  //   splashWindow.close();
+  //   createLoginWindow();
+  // } else {
+  //   splashWindow.webContents.loadURL('splash.html');
+  // }
+
 });
 
 
@@ -45,21 +81,6 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 };
 
-// async function connectToLocalHost() {
-//   try {
-//     const web3 = new Web3(localhost);
-//     const contract = new web3.eth.Contract(contractABI, contractAddress);
-//     if (typeof contract.methods.getUserRole === "function") {
-//       const userAddress = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266';
-//       const userRole = await contract.methods.getUserRole(userAddress).call();
-//       console.log('User Role is: ', userRole);
-//     } else {
-//       console.error('getUserRole is not a function');
-//     }
-//   } catch (error) {
-//     console.error('Error connecting to local host:', error);
-//   }
-// }
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
@@ -68,7 +89,7 @@ app.on('window-all-closed', () => {
 
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
-    createLoginWindow();
+    createSplashWindow();
   }
 });
 
@@ -88,11 +109,21 @@ ipcMain.on('navigate', (event, page) => {
 });
 
 
-// ipcMain.handle('login', async () => {
-//   const result = await login();
-//   return result;
-// });
+ipcMain.handle('login', async (event, userAddress, privateKey) => {
+  console.log('Login attempt with:', { userAddress, privateKey });
 
+  try {
+    const isValid = await validateUser(userAddress, privateKey);
+    return isValid;
+  } catch (error) {
+    console.error('Login error:', error);
+    throw new Error('Login failed');
+  }
+});
+
+async function validateUser(userAddress, privateKey) {
+  return userAddress && privateKey; 
+}
 // ipcMain.handle('logout', async () => {
 //   const result = await logout();
 //   return result;

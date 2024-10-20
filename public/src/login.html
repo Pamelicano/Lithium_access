@@ -32,10 +32,24 @@
         const connectButton = document.getElementById('connectButton');
         const loginForm = document.getElementById('loginForm');
 
+
+
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const userAddress = loginForm.elements[0].value;
             const privateKey = loginForm.elements[1].value;
+
+            try {
+                const loginResult = await ipcRenderer.invoke('login', userAddress, privateKey);
+                if (loginResult) {
+                ipcRenderer.send('login-success');  
+                } else {
+                alert('Invalid login credentials');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Error during login');
+            }
 
             // READS
             const response = await fetch('user.txt');
