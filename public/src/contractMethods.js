@@ -72,32 +72,28 @@ export async function getUserRole(userAddress) {
     }
 }
 
-// async function login() {
-//     const accounts = await web3.eth.getAccounts();
-//     const sender = accounts[0];
-//     return contract.methods.login().send({ from: sender });
-// }
+export async function assignUserRole(userAddress, userRole) {
+    try {
+        const accounts = await web3.eth.getAccounts();
+        const receipt = await contract.methods.assignUserRole(userAddress, userRole).send({from: accounts[0]});
+        console.log('Assign user Role ${userAddress} : ${userRole}');
+        return receipt;
+    } catch(error) {
+        console.error('Error assign user role: ', error);
+        throw error;
+    }
+}
 
-// async function logout() {
-//     const accounts = await web3.eth.getAccounts();
-//     const sender = accounts[0];
-//     return contract.methods.logout().send({ from: sender });
-// }
+export async function registerUser(userAddress, userRole) {
+    try {
+        const accounts = await web3.eth.getAccounts();
+        const receipt = await contract.methods.registerUser(userAddress, userRole).send({from: accounts[0]});
+        console.log('Register user: ${userAddress} : ${userRole}');
+        return receipt;
+    } catch(error) {
+        console.error('Error registretion user: ', error);
+        throw error;
+    }
+}
 
-// async function registerUser(userAddress, userRole) {
-//     const accounts = await web3.eth.getAccounts();
-//     const sender = accounts[0];
-//     return contract.methods.registerUser(userAddress, userRole).send({ from: sender });
-// }
-
-// async function assignUserRole(userAddress, userRole) {
-//     const accounts = await web3.eth.getAccounts();
-//     const sender = accounts[0];
-//     return contract.methods.assignUserRole(userAddress, userRole).send({ from: sender });
-// }
-
-// async function getUserRole(userAddress) {
-//     return contract.methods.getUserRole(userAddress).call();
-// }
-
-// export { loadWeb3, login, logout, registerUser, assignUserRole, getUserRole };
+export { loadWeb3, login, logout, registerUser, assignUserRole, getUserRole};
