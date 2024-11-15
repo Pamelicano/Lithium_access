@@ -14,5 +14,5 @@ function toggleHelpPanel() {
 }
 
 function navigate(page) {
-    window.api.navigate(page);
+    window.location.href = page;
 }

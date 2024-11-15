@@ -3,35 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asign User Role</title>
-    <link rel="stylesheet" type="text/css" href="commandline.css">
+    <title>Get User Role</title>
+    <link rel = "stylesheet" type="text/css" href="commandline.css"></link>
     <script src="scripts.js" defer></script>
     <script defer src="renderer.js"></script>
 </head>
 <header class="header" id="header">
-    <h1>Assign User Role</h1>
-    <button onclick="window.location.href='index.html'">  Back </button>
+    <h1>Get User Role</h1>
+    <button onclick="window.location.href='index_admin.html'">  Back </button>
 </header>
 <body>
     <div class="container">
         <div class="left-section">
-            <form id="getur">
+            <form action="#" id="getur">
                 <div class="input-box">
                     <input type="text" id="userAddress" required placeholder=" ">
-                    <label>User Address</label>
+                    <label for="userAddress">User Address</label>
                 </div>
-                <div class="input-box">
-                    <input type="text" id="userRole" required placeholder=" ">
-                    <label>User Role</label>
-                </div>
-                <button type="submit" class="bth" id="AssignUserRole">Submit</button>
+                <button type="submit" class="bth" id="getUserRole">Submit</button>
             </form>
         </div>
         <div class="right-section">
             <div class="top-right">
-                <p>Change User Role page</p>
+                <p>User Role View Page</p>
             </div>
-            <div class="bottom-right" id = "terminal">
+            <div class="bottom-right" id="terminal">
                 <pre id="terminal-output"></pre>
             </div>
         </div>
@@ -39,9 +35,8 @@
 
     <script type="module">
         import { ipcRenderer } from 'electron';
-        import { loadWeb3, assignUserRole} from './contractMethods.js';
+        import { loadWeb3, getUserRole } from './contractMethods.js';
 
-        
         function executeCommand(command) {
             ipcRenderer.send('run-command', command);
         }
@@ -52,14 +47,13 @@
             terminalOutput.scrollTop = terminalOutput.scrollHeight;
         });
 
-        document.getElementById('assignRoleForm').addEventListener('submit', async (e) => {
+        document.getElementById('getur').addEventListener('getUserRole', async (e) => {
             e.preventDefault();
             const userAddress = document.getElementById('userAddress').value;
-            const userRole = document.getElementById('userRole').value;
             try {
                 await loadWeb3();
-                await assignUserRole(userAddress, userRole);
-                const output = `User Role ${userRole} assigned to ${userAddress}`;
+                const role = await getUserRole(userAddress);
+                const output = `User Role: ${role}`;
                 executeCommand(output);
             } catch (error) {
                 executeCommand(`Error: ${error.message}`);

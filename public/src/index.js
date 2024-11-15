@@ -56,6 +56,7 @@ async function checkLocalHostConnection() {
 
 app.whenReady().then(async () => {
   createLoginWindow();
+  checkLocalHostConnection();
   // createSplashWindow();
   // const isConnected = await checkLocalHostConnection();
   // if (isConnected) {
