@@ -55,16 +55,16 @@ async function checkLocalHostConnection() {
 
 
 app.whenReady().then(async () => {
-  createLoginWindow();
-  checkLocalHostConnection();
-  // createSplashWindow();
-  // const isConnected = await checkLocalHostConnection();
-  // if (isConnected) {
-  //   splashWindow.close();
-  //   createLoginWindow();
-  // } else {
-  //   splashWindow.webContents.loadURL('splash.html');
-  // }
+  createSplashWindow();
+
+  const isConnected = await checkLocalHostConnection();
+
+  if (isConnected) {
+    splashWindow.close();
+    createLoginWindow(); 
+  } else {
+    splashWindow.webContents.loadURL('splash.html'); 
+  }
 
 });
 
@@ -125,6 +125,7 @@ ipcMain.handle('login', async (event, userAddress, privateKey) => {
 async function validateUser(userAddress, privateKey) {
   return userAddress && privateKey; 
 }
+
 // ipcMain.handle('logout', async () => {
 //   const result = await logout();
 //   return result;

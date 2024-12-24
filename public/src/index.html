@@ -6,7 +6,7 @@
     <title>Access Management System</title>
     <link rel="stylesheet" type="text/css" href="index.css">
     <script src="scripts.js" defer></script>
-    <script defer src="renderer.js"></script>
+    <script src="renderer.js" defer></script>
     <script>
         function logout() {
             localStorage.removeItem('userAddress');
@@ -15,7 +15,28 @@
 
             window.location.href = 'login.html';
         }
-    </script>  
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const userAddressSpan = document.getElementById('userAddress');
+            const userEmailSpan = document.getElementById('userEmail');
+
+            const userAddress = localStorage.getItem('userAddress');
+            const userEmail = localStorage.getItem('email');
+
+            if (userAddress) {
+                const truncatedAddress = userAddress.length > 20 
+                    ? userAddress.substring(0, 20) + '...' 
+                    : userAddress;
+
+                userAddressSpan.textContent = truncatedAddress;
+                userEmailSpan.textContent = userEmail || 'useremail@example.com';
+
+            } else {
+                userAddressSpan.textContent = 'Not Available';
+                userEmailSpan.textContent = 'useremail@example.com';
+            }
+        });
+    </script>
 </head>
 <body>
     <header class="header" id="header">
@@ -58,7 +79,7 @@
                 <button onclick="navigate('getur.html')">Get User Role</button>
                 <button onclick="navigate('asignur.html')">Assign User Role</button>
                 <button onclick="navigate('registur.html')">Register User</button>
-                <button onclick="navigate('transfer.html')">Transfer OwnerShip</button>
+                <button onclick="navigate('transfer.html')">Transfer Ownership</button>
             </section>
         </section>
         <section class="right-column">
@@ -79,36 +100,11 @@
               <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
               <script src="block_renderer.js"></script>
             <div style="height: 50px;"></div>
-            <script>
-                document.addEventListener('DOMContentLoaded', async () => {
-                    console.log('DOM полностью загружен');
-                    const userAddressSpan = document.getElementById('userAddress');
-                    const userEmailSpan = document.getElementById('email');
-                    
-                    const userAddress = localStorage.getItem('userAddress');
-                    const userEmail = localStorage.getItem('email');
-
-                    console.log('All retrieved localStorage data:', localStorage);
-
-                    if (userAddress) {
-                        const truncatedAddress = userAddress.length > 20 
-                            ? userAddress.substring(0, 20) + '...' 
-                            : userAddress;
-
-                        userAddressSpan.textContent = truncatedAddress;
-                        userEmailSpan.textContent = 'useremail@example.com';
-
-                    } else {
-                        userAddressSpan.textContent = 'Not Available';
-                        userEmailSpan.textContent = 'useremail@example.com';
-                    }
-                });
-            </script>   
         </section>
     </main>
     <footer class="footer" id="footer">
         <!-- Contacts with a developer and version of the program -->
-        <a href="https://github.com/Pamelicano/Lithium_access", style="color: #fff;">Contact with a developer on GitHub</a>
+        <a href="https://github.com/Pamelicano/Lithium_access" style="color: #fff;">Contact with a developer on GitHub</a>
         <p>Version: 1.0.0</p>
     </footer>
 </body>

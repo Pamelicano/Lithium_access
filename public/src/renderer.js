@@ -1,3 +1,5 @@
+const i18next = require('./i18n');
+
 document.addEventListener('DOMContentLoaded', () => {
     const terminal = document.getElementById('terminal');
 
@@ -39,6 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
             appendLog(`Error: ${error.message}`);
         }
     });
-
-
 });
+
+async function changeLanguage(lang) {
+    await ipcRenderer.invoke('change-language', lang);
+    location.reload(); 
+  }
+  
+  document.getElementById('changeLangBtn').addEventListener('click', () => {
+    changeLanguage('kk'); 
+  });

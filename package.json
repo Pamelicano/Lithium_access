@@ -17,8 +17,12 @@
     "@ethersproject/providers": "^5.7.2",
     "@openzeppelin/contracts": "^5.0.2",
     "electron": "^31.1.0",
+    "electron-store": "^10.0.0",
     "eth-gas-reporter": "^0.2.25",
     "ethers": "^6.13.1",
+    "i18next": "^24.2.0",
+    "i18next-browser-languagedetector": "^8.0.2",
+    "i18next-electron-fs-backend": "^3.0.2",
     "web3": "^4.13.0",
     "ws": "^8.17.1"
   }

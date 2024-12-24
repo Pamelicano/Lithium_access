@@ -3,88 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registretion to the System</title>
+    <title>Registration to the System</title>
     <link rel="stylesheet" type="text/css" href="login.css">
-    <script defer src="renderer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
 </head>
 <body>
     <div class="login-box">
         <h2>Login</h2>
-        <form action="#" id = 'loginForm'>
+        <form action="#" id="loginForm">
             <div class="input-box">
-                <input required>
+                <input id="userAddress" required>
                 <label>User Address</label>
             </div>
             <div class="input-box">
-                <input type="password" required>
+                <input id="PrivateKey" type="password" required>
                 <label>Private Key</label>
             </div>
             <div class="forgot-pass">
                 <a href="#">Lost your Private-Key?</a>
             </div>
-            <button type="submit" class="bth" id = 'connectButton'>Login</button>
+            <button type="submit" class="bth" id="connectButton">Login</button>
             <div class="metamask-link">
                 <a href="#">Link to Metamask</a>
             </div>
         </form>
     </div>
     <script>
-        const connectButton = document.getElementById('connectButton');
+        const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+
         const loginForm = document.getElementById('loginForm');
-
-
 
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const userAddress = loginForm.elements[0].value;
-            const privateKey = loginForm.elements[1].value;
+
+            const userAddress = document.getElementById('userAddress').value.trim();
+            const privateKey = document.getElementById('PrivateKey').value.trim();
+
+            if (!userAddress || !privateKey) {
+                alert('Please fill in both fields');
+                return;
+            }
 
             try {
-                const loginResult = await ipcRenderer.invoke('login', userAddress, privateKey);
-                if (loginResult) {
-                ipcRenderer.send('login-success');  
+                console.log('Attempting to connect to the blockchain...');
+                const web3 = new Web3('http://127.0.0.1:8545');
+                console.log('Web3 initialized:', web3);
+
+                const response = await fetch('http://127.0.0.1:8080/artifacts/contracts/Lock.sol/AccessControlList.json');
+                const contractData = await response.json();
+
+                console.log('Contract data loaded:', contractData);
+
+                if (!contractData || !contractData.abi) {
+                    console.error('ABI not found in contract data');
+                    alert('Contract ABI is missing');
+                    return;
+                }
+                const contract = new web3.eth.Contract(contractData.abi, contractAddress);
+                console.log('Contract initialized:', contract);
+
+                const userRole = await contract.methods.getUserRole(userAddress).call().toString().trim();
+                console.log('User role retrieved:', userRole);
+
+                if (userRole) {
+                    localStorage.setItem('userAddress', userAddress);
+                    localStorage.setItem('userRole', userRole);
+
+                    console.log('Saved role:', userRole);
+                    console.log('All localStorage:', localStorage);
+
+                    if (userRole === '0n') {
+                        console.log('Redirecting to index.html for user');
+                        window.location.href = 'index.html';
+                    } else if (userRole === '1n') {
+                        console.log('Redirecting to index_admin.html for admin');
+                        window.location.href = 'index_admin.html';
+                    } else {
+                        console.log('Redirecting to index_user.html for unknown role');
+                        window.location.href = 'index_user.html';
+                    }
                 } else {
-                alert('Invalid login credentials');
+                    alert('Invalid login credentials or no role assigned');
+                    console.log('No user role found for address:', userAddress);
                 }
             } catch (error) {
-                console.error('Login error:', error);
-            }
-
-            // READS
-            const response = await fetch('user.txt');
-            const usersData = await response.text();
-
-            // INVOLVED
-            const users = usersData.split('\n').map(line => {
-                const [username, password, role] = line.trim().split(',');
-                return { username, password, role };
-            });
-
-            const user = users.find(user => user.username === userAddress && user.password === privateKey);
-
-            if (user) {
-                // ADD LOCALSTORAGE
-                localStorage.setItem('userAddress', user.username);
-                localStorage.setItem('email', 'user@example.com');  
-                localStorage.setItem('userRole', user.role);
-
-                //CONSOLE
-                console.log('Saved role:', user.role);
-                console.log('All localStorage:', localStorage);
-
-                //DEPENDS
-                if (user.role === 'Owner') {
-                    window.location.href = 'index.html';
-                } else if (user.role === 'Admin') {
-                    window.location.href = 'index_admin.html';
-                } else {
-                    window.location.href = 'index_user.html';
-                }
-            } else {
-                alert('Wrong login or password');
+                console.error('Error interacting with blockchain:', error);
+                alert('Failed to connect to the blockchain');
+                console.log('Error details:', error);
             }
         });
-
     </script>
 </body>
 </html>

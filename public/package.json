@@ -26,6 +26,10 @@
   "author": "never",
   "license": "MIT",
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.1"
+    "electron-squirrel-startup": "^1.0.1",
+    "i18next": "^24.2.0",
+    "i18next-fs-backend": "^2.6.0",
+    "i18next-browser-languagedetector": "^6.1.4",
+    "i18next-http-backend": "^2.1.1"
   }
 }
