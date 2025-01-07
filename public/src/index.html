@@ -6,16 +6,8 @@
     <title>Access Management System</title>
     <link rel="stylesheet" type="text/css" href="index.css">
     <script src="scripts.js" defer></script>
-    <script src="renderer.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
     <script>
-        function logout() {
-            localStorage.removeItem('userAddress');
-            localStorage.removeItem('email');
-            localStorage.removeItem('userRole');
-
-            window.location.href = 'login.html';
-        }
-
         document.addEventListener('DOMContentLoaded', async () => {
             const userAddressSpan = document.getElementById('userAddress');
             const userEmailSpan = document.getElementById('userEmail');
@@ -70,8 +62,9 @@
                     <span id="userRole">Owner</span>
                 </div>
             </div>
-            <button id="logoutButton" onclick="logout()">Log Out</button>
+            <button id="logoutButton">Log Out</button>
         </section>
+
         <section class="left-column">
             <!-- Command section (GetUserRole, AssignUserRole, registerUser, LogOut) and Company Information -->
             <section class="command-line" id="command">
@@ -97,11 +90,77 @@
                   <!-- Rows will be dynamically added here -->
                 </tbody>
               </table>
-              <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
-              <script src="block_renderer.js"></script>
             <div style="height: 50px;"></div>
         </section>
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (typeof Web3 === 'undefined') {
+                console.error('Web3 is not loaded. Please check the script source or network connectivity.');
+                alert('Failed to load Web3. Please refresh the page.');
+                return;
+            }
+    
+            const web3 = new Web3('http://127.0.0.1:8545');
+            const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+
+            async function logout() {
+                const userAddress = localStorage.getItem('userAddress');
+    
+                if (!userAddress) {
+                    alert('No user is logged in.');
+                    return;
+                }
+    
+                try {
+                    console.log('Attempting to log out user:', userAddress);
+    
+                    const response = await fetch('http://127.0.0.1:8080/artifacts/contracts/Lock.sol/AccessControlList.json');
+                    const contractData = await response.json();
+    
+                    if (!contractData || !contractData.abi) {
+                        console.error('ABI not found in contract data');
+                        alert('Failed to load contract data.');
+                        return;
+                    }
+    
+                    const contract = new web3.eth.Contract(contractData.abi, contractAddress);
+
+                    await contract.methods.logout().send({ from: userAddress });
+                    console.log('Logout successfully recorded in blockchain.');
+    
+                    localStorage.removeItem('userAddress');
+                    localStorage.removeItem('email');
+                    localStorage.removeItem('userRole');
+    
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    console.error('Error during logout process:', error);
+                    alert('Failed to log out. Please try again.');
+                }
+            }
+    
+            document.getElementById('logoutButton').addEventListener('click', logout);
+    
+            const userAddressSpan = document.getElementById('userAddress');
+            const userEmailSpan = document.getElementById('userEmail');
+    
+            const userAddress = localStorage.getItem('userAddress');
+            const userEmail = localStorage.getItem('email');
+    
+            if (userAddress) {
+                const truncatedAddress = userAddress.length > 20
+                    ? userAddress.substring(0, 20) + '...'
+                    : userAddress;
+    
+                userAddressSpan.textContent = truncatedAddress;
+                userEmailSpan.textContent = userEmail || 'useremail@example.com';
+            } else {
+                userAddressSpan.textContent = 'Not Available';
+                userEmailSpan.textContent = 'useremail@example.com';
+            }
+        });
+    </script>    
     <footer class="footer" id="footer">
         <!-- Contacts with a developer and version of the program -->
         <a href="https://github.com/Pamelicano/Lithium_access" style="color: #fff;">Contact with a developer on GitHub</a>

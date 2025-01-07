@@ -62,21 +62,41 @@
                 const contract = new web3.eth.Contract(contractData.abi, contractAddress);
                 console.log('Contract initialized:', contract);
 
-                const userRole = await contract.methods.getUserRole(userAddress).call().toString().trim();
+                const userRole = await contract.methods.getUserRole(userAddress).call();
                 console.log('User role retrieved:', userRole);
+                console.log('Type of userRole:', typeof userRole);
 
-                if (userRole) {
+                const userRoleNumber = Number(userRole); 
+                console.log('User role as number:', userRoleNumber);
+
+                if (userRole !== undefined && userRole !== null) {
                     localStorage.setItem('userAddress', userAddress);
                     localStorage.setItem('userRole', userRole);
 
                     console.log('Saved role:', userRole);
                     console.log('All localStorage:', localStorage);
 
-                    if (userRole === '0n') {
+                    if (userRoleNumber === 0) {
                         console.log('Redirecting to index.html for user');
+                        try {
+                            await contract.methods.login().send({ from: userAddress });
+                            console.log('Login successfully recorded in blockchain');
+                        } catch (error) {
+                            console.error('Error during blockchain login:', error);
+                            alert('Failed to login via blockchain. Please try again.');
+                            return; 
+                        }
                         window.location.href = 'index.html';
-                    } else if (userRole === '1n') {
+                    } else if (userRoleNumber === 1) {
                         console.log('Redirecting to index_admin.html for admin');
+                        try {
+                            await contract.methods.login().send({ from: userAddress });
+                            console.log('Login successfully recorded in blockchain');
+                        } catch (error) {
+                            console.error('Error during blockchain login:', error);
+                            alert('Failed to login via blockchain. Please try again.');
+                            return; 
+                        }
                         window.location.href = 'index_admin.html';
                     } else {
                         console.log('Redirecting to index_user.html for unknown role');

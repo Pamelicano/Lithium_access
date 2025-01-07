@@ -122,6 +122,17 @@ ipcMain.handle('login', async (event, userAddress, privateKey) => {
   }
 });
 
+ipcMain.handle('logout', async (event, userAddress, privateKey) => {
+  console.log('Logout attempt with:', {userAddress, privateKey});
+  try {
+    const isValid = await validateUser(userAddress, privateKey);
+    return isValid;
+  } catch(error) {
+    console.error('Logout error: ', error);
+    throw new Error('Logout failed');
+  }
+});
+
 async function validateUser(userAddress, privateKey) {
   return userAddress && privateKey; 
 }

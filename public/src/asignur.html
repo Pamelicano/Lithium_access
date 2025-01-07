@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asign User Role</title>
     <link rel="stylesheet" type="text/css" href="commandline.css">
-    <script src="scripts.js" defer></script>
     <script defer src="renderer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
 </head>
 <header class="header" id="header">
     <h1>Assign User Role</h1>
@@ -15,13 +15,13 @@
 <body>
     <div class="container">
         <div class="left-section">
-            <form id="getur">
+            <form action = "#" id="assign">
                 <div class="input-box">
-                    <input type="text" id="userAddress" required placeholder=" ">
+                    <input type="text" id="userAddress1" required placeholder=" ">
                     <label>User Address</label>
                 </div>
                 <div class="input-box">
-                    <input type="text" id="userRole" required placeholder=" ">
+                    <input type="text" id="userRole1" required placeholder=" ">
                     <label>User Role</label>
                 </div>
                 <button type="submit" class="bth" id="AssignUserRole">Submit</button>
@@ -36,35 +36,48 @@
             </div>
         </div>
     </div>
+    <script>
+         const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+         const responder = localStorage.getElementById('userAddress');
 
-    <script type="module">
-        import { ipcRenderer } from 'electron';
-        import { loadWeb3, assignUserRole} from './contractMethods.js';
-
-        
-        function executeCommand(command) {
-            ipcRenderer.send('run-command', command);
-        }
-
-        ipcRenderer.on('command-output', (event, output) => {
-            document.getElementById('terminal-output').innerText += output + '\n';
-            const terminalOutput = document.getElementById('terminal-output');
-            terminalOutput.scrollTop = terminalOutput.scrollHeight;
-        });
-
-        document.getElementById('assignRoleForm').addEventListener('submit', async (e) => {
+         const form = document.getElementById('assign');
+         form.addEventListener('submit', async(e) => {
             e.preventDefault();
-            const userAddress = document.getElementById('userAddress').value;
-            const userRole = document.getElementById('userRole').value;
-            try {
-                await loadWeb3();
-                await assignUserRole(userAddress, userRole);
-                const output = `User Role ${userRole} assigned to ${userAddress}`;
-                executeCommand(output);
-            } catch (error) {
-                executeCommand(`Error: ${error.message}`);
+            const userAddress1 = document.getElementById('userAddress1').value.trim();
+            const userRole1 = document.getElementById('userRole1').value.trim();
+
+            if (!userAddress1 || !userRole1) {
+                alert('Please fill in both fields');
+                return;
             }
-        });
+            try {
+                console.log('Attempting to connect to the blockchain...');
+                const web3 = new Web3('http://127.0.0.1:8545');
+                console.log('Web3 initialized:', web3);
+
+                const response = await fetch('http://127.0.0.1:8080/artifacts/contracts/Lock.sol/AccessControlList.json');
+                const contractData = await response.json();
+
+                console.log('Contract data loaded:', contractData);
+                if (!contractData || !contractData.abi) {
+                    console.error('ABI not found in contract data');
+                    alert('Contract ABI is missing');
+                    return;
+                }
+                const contract = new web3.eth.Contract(contractData.abi, contractAddress);
+                console.log('Contract initialized:', contract);
+                try {
+                    await contract.methods.assignUserRole(userAddress, userRole).send({ from: responder });
+                    console.log('Successfully assigned the user role', userAddress, 'to:', userRole);
+                } catch (error) {
+                    console.error('Error during blockchain assign user role:', error);
+                    alert('Failed to assign user role. Please try again.');
+                }
+            } catch(error) {
+                console.error('Error in main execution:', error);
+                alert('An unexpected error occurred. Please check the console for more details.');
+            }
+         })
     </script>
 </body>
 </html>
