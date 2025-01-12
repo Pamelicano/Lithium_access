@@ -133,26 +133,64 @@ ipcMain.handle('logout', async (event, userAddress, privateKey) => {
   }
 });
 
+
+ipcMain.handle('getUserRole', async (event, userAddress) => {
+  console.log('GetUserRole attempt with:', { userAddress });
+
+  try {
+    const web3 = new Web3('http://127.0.0.1:8545');
+    console.log('Web3 initialized:', web3);
+
+    const contractData = require(contractABIPath);
+    if (!contractData || !contractData.abi) {
+      console.error('ABI not found in contract data');
+      throw new Error('Contract ABI is missing');
+    }
+
+    const contract = new web3.eth.Contract(contractData.abi, contractAddress);
+    console.log('Contract initialized:', contract);
+
+    const userRole = await contract.methods.getUserRole(userAddress).call();
+    console.log('User role retrieved:', userRole);
+
+    const userRoleNumber = Number(userRole);
+    console.log('User role as number:', userRoleNumber);
+
+    return userRoleNumber;
+  } catch (error) {
+    console.error('Error retrieving user role:', error);
+    throw new Error('Failed to retrieve user role');
+  }
+});
+
+ipcMain.handle('registerUser', async (event, userAddress, privateKey) => {
+  console.log('RegisterUser attempt with:', { userAddress, privateKey });
+
+  try {
+    const web3 = new Web3('http://127.0.0.1:8545');
+    console.log('Web3 initialized:', web3);
+
+    const contractData = require(contractABIPath);
+    if (!contractData || !contractData.abi) {
+      console.error('ABI not found in contract data');
+      throw new Error('Contract ABI is missing');
+    }
+
+    const contract = new web3.eth.Contract(contractData.abi, contractAddress);
+    console.log('Contract initialized:', contract);
+
+    const tx = await contract.methods
+      .registerUser(userAddress) 
+      .send({ from: userAddress, gas: 3000000 });
+
+    console.log('User registered:', tx);
+    return 'User registered successfully';
+  } catch (error) {
+    console.error('Error registering user:', error);
+    throw new Error('Failed to register user');
+  }
+});
+
 async function validateUser(userAddress, privateKey) {
   return userAddress && privateKey; 
 }
-
-// ipcMain.handle('logout', async () => {
-//   const result = await logout();
-//   return result;
-// });
-
-// ipcMain.handle('registerUser', async (event, userAddress, userRole) => {
-//   const result = await registerUser(userAddress, userRole);
-//   return result;
-// });
-
-// ipcMain.handle('assignUserRole', async (event, userAddress, userRole) => {
-//   const result = await assignUserRole(userAddress, userRole);
-//   return result;
-// });
-
-// ipcMain.handle('getUserRole', async (event, userAddress) => {
-//   const result = await getUserRole(userAddress);
-//   return result;
-// });

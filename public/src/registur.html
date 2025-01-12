@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register User</title>
     <link rel="stylesheet" type="text/css" href="commandline.css">
-    <script src="scripts.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
-    <script src="contractMethods.js" defer></script> 
-    <script defer src="renderer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
 </head>
 <body>
     <header class="header">
@@ -17,14 +14,18 @@
     </header>
     <div class="container">
         <div class="left-section">
-            <form id="getur">
+            <form id="regur">
                 <div class="input-box">
                     <input type="text" id="userAddress" required placeholder=" ">
                     <label>User Address</label>
                 </div>
                 <div class="input-box">
-                    <input type="text" id="userRole" required placeholder=" ">
-                    <label>User Role</label>
+                    <select id="userRole" required>
+                        <option value="" disabled selected>Choose Role</option>
+                        <option value="0">Owner</option>
+                        <option value="1">Admin</option>
+                        <option value="2">User</option>
+                    </select>
                 </div>
                 <button type="submit" class="bth" id="registerUser">Submit</button>
             </form>
@@ -38,31 +39,43 @@
             </div>
         </div>
     </div>
-
-
-    <script type="module">
-        import { loadWeb3, registerUser } from './contractMethods.js';
-
-        document.getElementById('getur').addEventListener('submit', async (e) => {
+    <script>
+        const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+        const inputbox = document.getElementById('regur');
+        inputbox.addEventListener('submit', async(e) => {
             e.preventDefault();
-            const userAddress = document.getElementById('userAddress').value;
-            const userRole = parseInt(document.getElementById('userRole').value);
+            const userAddress = document.getElementById('userAddress').value.trim();
+            const userRole = parseInt(document.getElementById('userRole').value.trim(), 10);
+            const roleBigInt = BigInt(userRole); 
+
+            const sender = localStorage.getItem('userAddress');
             try {
-                const receipt = await registerUser(userAddress, userRole);
-                displayOutput(`Transaction successful: ${receipt.transactionHash}`);
-            } catch (error) {
-                displayOutput(`Error: ${error.message}`);
+                console.log('Attempting to connect to the blockchain...');
+                const web3 = new Web3('http://127.0.0.1:8545/');
+                console.log('Web3 initialized:', web3);
+
+                const response = await fetch('http://127.0.0.1:8080/artifacts/contracts/Lock.sol/AccessControlList.json');
+                const contractData = await response.json();
+
+                console.log('Contract data loaded: ', contractData);
+                if (!contractData || !contractData.abi) {
+                    console.error('ABI not found in contract data');
+                    alert('Contract ABI missing');
+                    return;
+                }
+                const contract = new web3.eth.Contract(contractData.abi, contractAddress);
+                console.log('Contract initialized:', contract);
+
+                const receipt = await contract.methods
+                .registerUser(userAddress, roleBigInt) 
+                .send({ from: sender, gas: 3000000 });
+
+                console.log('Registration transaction receipt:', receipt);
+                alert(`User registered successfully with role ${userRole}!`);
+            } catch(error) {
+                console.error('Error during user registration:', error);
+                alert('Failed to register user. Check the console for details.');
             }
-        });
-
-        function displayOutput(output) {
-            const terminalOutput = document.getElementById('terminal-output');
-            terminalOutput.innerText += output + '\n';
-            terminalOutput.scrollTop = terminalOutput.scrollHeight;
-        }
-
-        window.addEventListener('load', async () => {
-            await loadWeb3();
         });
     </script>
 </body>

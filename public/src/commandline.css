@@ -106,6 +106,52 @@ form {
     border-color: #58e75d;
 }
 
+.input-box select {
+    width: calc(100% - 40px);
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #58e75d;
+    background-color: #fff;
+    border: 2px solid #067f0a;
+    border-radius: 20px;
+    outline: none;
+    appearance: none; 
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.input-box select:hover {
+    border-color: #4CAF50;
+    background-color: #f9f9f9;
+}
+
+.input-box select:focus {
+    border-color: #58e75d;
+    background-color: #fff;
+}
+
+.input-box option {
+    color: #000;
+    background-color: #fff;
+    font-size: 1em;
+}
+
+.input-box {
+    position: relative;
+}
+
+.input-box select {
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23067f0a"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 20px;
+}
+
+.input-box select:focus {
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234CAF50"><path d="M7 10l5 5 5-5z"/></svg>');
+}
+
+
 .input-box label {
     position: absolute;
     top: 50%;
