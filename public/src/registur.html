@@ -71,7 +71,13 @@
                 .send({ from: sender, gas: 3000000 });
 
                 console.log('Registration transaction receipt:', receipt);
-                alert(`User registered successfully with role ${userRole}!`);
+                if (userRole == 0) {
+                    alert(`User role successfully assign to Owner!`);
+                } else if (userRole == 1) {
+                    alert(`User role successfully assign to Admin!`);
+                } else {
+                    alert(`User role successfully assign to User!`);
+                }
             } catch(error) {
                 console.error('Error during user registration:', error);
                 alert('Failed to register user. Check the console for details.');
