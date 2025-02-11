@@ -63,6 +63,7 @@ contract AccessControlList is Ownable(msg.sender) {
     }
 
     function getUserRole(address _user) external view returns (UserRole) {
+        require(users[_user].userAddress != address(0), "User not registered");
         return users[_user].userRole;
     }
 
