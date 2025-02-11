@@ -1,0 +1,22 @@
+{
+    "title": "LITHIUM Access Management System",
+    "home": "Home",
+    "contract": "Contract",
+    "userProfile": "User Profile",
+    "userAddress": "User Address:",
+    "userEmail": "User Email:",
+    "userRole": "User Role:",
+    "logout": "Log Out",
+    "commandLine": "Command Line",
+    "getUserRole": "Get User Role",
+    "assignUserRole": "Assign User Role",
+    "registerUser": "Register User",
+    "transferOwnership": "Transfer Ownership",
+    "allUsers": "All Users",
+    "id": "ID",
+    "name": "Name",
+    "role": "Role",
+    "contactDeveloper": "Contact with a developer on GitHub",
+    "version": "Version: 1.0.0"
+  }
+  

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get User Role</title>
+    <link rel = "stylesheet" type="text/css" href="commandline.css"></link>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+</head>
+<header class="header" id="header">
+    <h1>Get User Role</h1>
+    <button onclick="window.location.href='index_admin.html'">  Back </button>
+</header>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <form action="#" id="getur">
+                <div class="input-box">
+                    <input type="text" id="userAddress" required placeholder=" ">
+                    <label for="userAddress">User Address</label>
+                </div>
+                <button type="submit" class="bth" id="getUserRole">Submit</button>
+            </form>
+        </div>
+        <div class="right-section">
+            <div class="top-right">
+                <p>User Role View Page</p>
+            </div>
+            <div class="bottom-right" id="terminal">
+                <pre id="terminal-output"></pre>
+            </div>
+        </div>
+    </div>
+    <script>
+        const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+        const inputbox = document.getElementById('getur');
+        inputbox.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const userAddress = document.getElementById('userAddress').value.trim();
+            try {
+                console.log('Attempting to connect to the blockchain...');
+                const web3 = new Web3('http://127.0.0.1:8545');
+                console.log('Web3 initialized: ', web3);
+
+                const response = await fetch('http://127.0.0.1:8080/artifacts/contracts/Lock.sol/AccessControlList.json');
+                const contractData = await response.json();
+
+                console.log('Contract data loaded: ', contractData);
+                if (!contractData || !contractData.abi) {
+                    console.error('ABI not found in contract data');
+                    alert('Contract ABI missing');
+                    return;
+                }
+                const contract = new web3.eth.Contract(contractData.abi, contractAddress);
+                console.log('Contract initialized:', contract);
+
+                const userRole = await contract.methods.getUserRole(userAddress).call({from : sender});
+                console.log('User role retrived:', userRole);
+                console.log('Type of userRole:', typeof userRole);
+
+                const userRoleNumber = Number(userRole);
+                console.log('User role as number:', userRoleNumber);
+                
+                if (userRole !== undefined && userRole !== null) {
+                    if (userRoleNumber === 0) {
+                        alert('User role - Owner');
+                    } else if (userRoleNumber == 1) {
+                        alert('User role - Admin');
+                    } else {
+                        alert('User role - User');
+                    }
+                } else {
+                    alert('Invalid input credits or not registered user');
+                    console.log('No user role found for address: ', userAddress);
+                }
+            } catch(error) {
+                console.error('Error interacting with blockchain:', error);
+                alert('Failed to connect to the blockchain');
+                console.log('Error details:', error);
+            }
+        });
+    </script>
+</body>
+</html>
