@@ -1,0 +1,22 @@
+{
+    "title": "LITHIUM Қол жеткізу жүйесі",
+    "home": "Басты бет",
+    "contract": "Шарт",
+    "userProfile": "Пайдаланушы профилі",
+    "userAddress": "Пайдаланушы мекенжайы:",
+    "userEmail": "Пайдаланушының электрондық поштасы:",
+    "userRole": "Пайдаланушының рөлі:",
+    "logout": "Шығу",
+    "commandLine": "Командалық жол",
+    "getUserRole": "Рөлді алу",
+    "assignUserRole": "Рөл тағайындау",
+    "registerUser": "Пайдаланушыны тіркеу",
+    "transferOwnership": "Меншік иесін ауыстыру",
+    "allUsers": "Барлық пайдаланушылар",
+    "id": "ID",
+    "name": "Аты",
+    "role": "Рөл",
+    "contactDeveloper": "GitHub-та әзірлеушімен байланысыңыз",
+    "version": "Нұсқа: 1.0.0"
+  }
+  
