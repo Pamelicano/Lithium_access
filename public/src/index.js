@@ -1,5 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const i18next = require("i18next");
+const Backend = require("i18next-fs-backend");
 const {Web3} = require('web3');
 
 const localhost = 'http://127.0.0.1:8545';
@@ -194,3 +196,21 @@ ipcMain.handle('registerUser', async (event, userAddress, privateKey) => {
 async function validateUser(userAddress, privateKey) {
   return userAddress && privateKey; 
 }
+
+i18next
+  .use(Backend)
+  .init({
+    lng: "en", 
+    fallbackLng: "en",
+    backend: {
+      loadPath: path.join(__dirname, "locales", "{{lng}}.json"),
+    },
+  });
+
+ipcMain.handle("getTranslation", async (_, key) => {
+  return i18next.t(key);
+});
+
+ipcMain.handle("setLanguage", async (_, lang) => {
+  await i18next.changeLanguage(lang);
+});

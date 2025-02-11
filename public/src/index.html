@@ -7,87 +7,98 @@
     <link rel="stylesheet" type="text/css" href="index.css">
     <script src="scripts.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+    <script src="translations.js" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const userAddressSpan = document.getElementById('userAddress');
             const userEmailSpan = document.getElementById('userEmail');
-
+            const langButton = document.getElementById('langButton');
+            
             const userAddress = localStorage.getItem('userAddress');
             const userEmail = localStorage.getItem('email');
-
+            
             if (userAddress) {
                 const truncatedAddress = userAddress.length > 20 
                     ? userAddress.substring(0, 20) + '...' 
                     : userAddress;
-
+                
                 userAddressSpan.textContent = truncatedAddress;
                 userEmailSpan.textContent = userEmail || 'useremail@example.com';
-
             } else {
                 userAddressSpan.textContent = 'Not Available';
                 userEmailSpan.textContent = 'useremail@example.com';
             }
+            const currentLang = localStorage.getItem('lang') || 'en';
+            langToggle.checked = currentLang === 'kk';
+
+            langToggle.addEventListener('change', () => {
+                const newLang = langToggle.checked ? 'kk' : 'en';
+                if (typeof changeLang === 'function') {
+                    changeLang(newLang);
+                } else {
+                    console.error('Функция changeLang не найдена.');
+                }
+            });
         });
     </script>
 </head>
 <body>
     <header class="header" id="header">
-        <!-- Head part with a title of a project LITHIUM and top menu-->
-        <h1>LITHIUM Access Management System</h1>
+        <h1 id="title">LITHIUM Access Management System</h1>
         <nav>
             <ul>
-                <li><a href="#" onclick="navigate('index.html')">Home</a></li>
-                <li><a href="#" onclick="navigate('Contact.html')">Contract</a></li>
+                <li><a href="#" onclick="navigate('index.html')" id="home">Home</a></li>
+                <li><a href="#" onclick="navigate('Contact.html')" id="contract">Contract</a></li>
             </ul>
         </nav>
+        <label class="lang-switch">
+            <input type="checkbox" id="langToggle">
+            <span class="slider"></span>
+        </label>
     </header>
     <main class="main" id="main">
-        <!-- Main Content for all ACS-->
         <section class="profile-selection" id="profile">
-            <h1 style="text-align: center;">User Profile</h1>
+            <h1 style="text-align: center;" id="userProfile">User Profile</h1>
             <div class="user-info">
                 <div class="avatar"></div>
                 <div style="height: 20px;"></div>
                 <div class="user-details">
-                    <h3>User Address:</h3>
+                    <h3 id="userAddressLabel">User Address:</h3>
                     <div style="height: 5px;"></div>
                     <span id="userAddress"></span>
                     <div style="height: 5px;"></div>
-                    <h3>User Email:</h3>
+                    <h3 id="userEmailLabel">User Email:</h3>
                     <div style="height: 5px;"></div>
                     <span id="userEmail"></span>
                     <div style="height: 5px;"></div>
-                    <h3>User Role:</h3>
+                    <h3 id="userRoleLabel">User Role:</h3>
                     <div style="height: 5px;"></div>
                     <span id="userRole">Owner</span>
                 </div>
             </div>
             <button id="logoutButton">Log Out</button>
         </section>
-
         <section class="left-column">
-            <!-- Command section (GetUserRole, AssignUserRole, registerUser, LogOut) and Company Information -->
             <section class="command-line" id="command">
-                <h2>Command Line</h2>
-                <button onclick="navigate('getur.html')">Get User Role</button>
-                <button onclick="navigate('asignur.html')">Assign User Role</button>
-                <button onclick="navigate('registur.html')">Register User</button>
-                <button onclick="navigate('transfer.html')">Transfer Ownership</button>
+                <h2 id="commandLine">Command Line</h2>
+                <button onclick="navigate('getur.html')" id="getUserRole">Get User Role</button>
+                <button onclick="navigate('asignur.html')" id="assignUserRole">Assign User Role</button>
+                <button onclick="navigate('registur.html')" id="registerUser">Register User</button>
+                <button onclick="navigate('transfer.html')" id="transferOwnership">Transfer Ownership</button>
             </section>
         </section>
         <section class="right-column">
-            <!-- Table of all users with their role and status online/offline -->
-            <h2>All Users</h2>
+            <h2 id="allUsers">All Users</h2>
             <table id="usersTable">
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Role</th>
+                    <th id="name">Name</th>
+                    <th id="role">Role</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- Rows will be dynamically added here -->
+                  
                 </tbody>
               </table>
             <div style="height: 50px;"></div>
@@ -103,7 +114,7 @@
     
             const web3 = new Web3('http://127.0.0.1:8545');
             const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
-
+    
             async function logout() {
                 const userAddress = localStorage.getItem('userAddress');
     
@@ -141,30 +152,11 @@
             }
     
             document.getElementById('logoutButton').addEventListener('click', logout);
-    
-            const userAddressSpan = document.getElementById('userAddress');
-            const userEmailSpan = document.getElementById('userEmail');
-    
-            const userAddress = localStorage.getItem('userAddress');
-            const userEmail = localStorage.getItem('email');
-    
-            if (userAddress) {
-                const truncatedAddress = userAddress.length > 20
-                    ? userAddress.substring(0, 20) + '...'
-                    : userAddress;
-    
-                userAddressSpan.textContent = truncatedAddress;
-                userEmailSpan.textContent = userEmail || 'useremail@example.com';
-            } else {
-                userAddressSpan.textContent = 'Not Available';
-                userEmailSpan.textContent = 'useremail@example.com';
-            }
         });
     </script>    
     <footer class="footer" id="footer">
-        <!-- Contacts with a developer and version of the program -->
-        <a href="https://github.com/Pamelicano/Lithium_access" style="color: #fff;">Contact with a developer on GitHub</a>
-        <p>Version: 1.0.0</p>
+        <a href="https://github.com/Pamelicano/Lithium_access" style="color: #fff;" id="contactDev">Contact with a developer on GitHub</a>
+        <p id="version">Version: 1.0.0</p>
     </footer>
 </body>
 </html>
