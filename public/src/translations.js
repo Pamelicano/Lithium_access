@@ -17,7 +17,7 @@ const translations = {
         name: "Name",
         role: "Role",
         contactDev: "Contact with a developer on GitHub",
-        version: "Version: 1.0.0"
+        version: "Version: 1.0.1"
     },
     kk: {
         title: "LITHIUM Қол жеткізуді басқару жүйесі",
@@ -37,7 +37,27 @@ const translations = {
         name: "Аты",
         role: "Рөлі",
         contactDev: "GitHub-та әзірлеушімен байланысу",
-        version: "Нұсқа: 1.0.0"
+        version: "Нұсқа: 1.0.1"
+    },
+    ru: {
+        title: "LITHIUM Система контроля доступом",
+        home: "Главная",
+        contract: "Контракт",
+        userProfile: "Профиль",
+        userAddressLabel: "Адрес пользователя",
+        userEmailLabel: "Почта пользователя",
+        userRoleLabel: "Роль:",
+        logoutButton: "Выход",
+        commandLine: "Командная строка",
+        getUserRole: "Получить роль",
+        assignUserRole: "Изменить роль",
+        registerUser: "Регистрация пользователя",
+        transferOwnership: "Смена владельца",
+        allUsers: "Все пользователи",
+        name: "Имя",
+        role: "Роль",
+        contactDev: "Контактная информация на GitHub",
+        version: "Версия: 1.0.1"
     }
 };
 

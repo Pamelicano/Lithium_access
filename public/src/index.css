@@ -187,48 +187,41 @@ nav ul li a {
   color: #f44336;
 }
 
-.lang-switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 26px;
+.language-select-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
 }
 
-.lang-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
+.lang-select {
+  background-color: #4CAF50; /* Зеленый фон */
+  color: white; /* Белый текст */
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 34px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
+.lang-select:hover {
+  background-color: #45A049; /* Более темный зеленый при наведении */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Увеличенная тень */
 }
 
-input:checked + .slider {
-  background-color: #4CAF50;
+.lang-select:focus {
+  outline: none;
+  box-shadow: 0px 0px 8px #4CAF50; /* Зеленая подсветка при фокусе */
 }
 
-input:checked + .slider:before {
-  transform: translateX(24px);
+.lang-select option {
+  background-color: #f8f8f8; /* Светлый фон для выпадающего списка */
+  color: #333; /* Цвет текста в выпадающем списке */
 }
 
+.lang-select option:hover {
+  background-color: #4CAF50; /* Зеленый фон при наведении */
+  color: white;
+}
