@@ -8,7 +8,8 @@ const contract = new web3.eth.Contract(contractABI, process.env.CONTRACT_ADDRESS
 
 const userAddresses = {
     "UID:52DF716C": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", 
-    "UID:6225576C": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8" 
+    "UID:6225576C": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+    "UID:523A726C": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"
 };
 
 const privateKeys = {
@@ -35,10 +36,10 @@ parser.on('data', async (uid) => {
     try {
         const role = await contract.methods.getUserRole(userAddress).call();
 
-        if (role == 0 || role == 1 || role == 2) { 
+        if (role == 0 || role == 1) { 
             console.log(`✅ Доступ разрешён! Роль: ${role}`);
         } else {
-            console.log(`❌ Доступ запрещён! Роль не найдена.`);
+            console.log(`❌ Доступ запрещён! Вы не имеете доступа к этому ресурсу.`);
         }
 
     } catch (error) {

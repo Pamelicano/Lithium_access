@@ -6,25 +6,43 @@
     <title>Register User</title>
     <link rel="stylesheet" type="text/css" href="commandline.css">
     <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+    <script src="translation2.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const currentLang = localStorage.getItem('lang') || 'en';
+            langToggle.checked = currentLang == 'kk';
+
+            langToggle.addEventListener('change', () => {
+                const newLang = langToggle.checked ? 'kk' : 'en';
+                if (typeof changeLang == 'function') {
+                    changeLang(newLang);
+                } else console.error('Function changeLang is not founded.');
+            });
+        });
+    </script>
 </head>
 <body>
     <header class="header">
-        <h1>Register User</h1>
-        <button onclick="window.location.href='index.html'">  Back </button>
+        <h1 id = "reg">Register User</h1>
+        <button onclick="window.location.href='index.html'" id = "back">  Back </button>
+        <label class="lang-switch">
+            <input type="checkbox" id="langToggle">
+            <span class="slider"></span>
+        </label>
     </header>
     <div class="container">
         <div class="left-section">
             <form id="regur">
                 <div class="input-box">
                     <input type="text" id="userAddress" required placeholder=" ">
-                    <label>User Address</label>
+                    <label id = "label1">User Address</label>
                 </div>
                 <div class="input-box">
                     <select id="userRole" required>
-                        <option value="" disabled selected>Choose Role</option>
-                        <option value="0">Owner</option>
-                        <option value="1">Admin</option>
-                        <option value="2">User</option>
+                        <option value="" disabled selected id = "choose">Choose Role</option>
+                        <option value="0" id = "ow">Owner</option>
+                        <option value="1" id = "ad">Admin</option>
+                        <option value="2" id = "us">User</option>
                     </select>
                 </div>
                 <button type="submit" class="bth" id="registerUser">Submit</button>
@@ -32,7 +50,7 @@
         </div>
         <div class="right-section">
             <div class="top-right">
-                <p>Текст в верхнем блоке правой секции.</p>
+                <p id = "text">Text</p>
             </div>
             <div class="bottom-right" id="terminal">
                 <pre id="terminal-output"></pre>

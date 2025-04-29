@@ -29,12 +29,12 @@
                 userEmailSpan.textContent = 'useremail@example.com';
             }
             const currentLang = localStorage.getItem('lang') || 'en';
-            langToggle.checked = currentLang === 'kk';
-
-            langToggle.addEventListener('change', () => {
-                const newLang = langToggle.checked ? 'kk' : 'en';
+            langSelect.value = currentLang;
+            langSelect.addEventListener('change', () => {
+                const newLang = langSelect.value;
                 if (typeof changeLang === 'function') {
                     changeLang(newLang);
+                    localStorage.setItem('lang', newLang);
                 } else {
                     console.error('Функция changeLang не найдена.');
                 }
@@ -51,10 +51,11 @@
                 <li><a href="#" onclick="navigate('Contact.html')" id="contract">Contract</a></li>
             </ul>
         </nav>
-        <label class="lang-switch">
-            <input type="checkbox" id="langToggle">
-            <span class="slider"></span>
-        </label>
+        <select id="langSelect" class="lang-select">
+            <option value="en">English</option>
+            <option value="ru">Русский</option>
+            <option value="kk">Қазақша</option>
+        </select>
     </header>
     <main class="main" id="main">
         <section class="profile-selection" id="profile">
