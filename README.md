@@ -53,8 +53,7 @@ This project is intended for educational purposes only. It is provided as-is, wi
 **Use at your own risk.**
 
 ## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the CC BY-NC 4.0 License — NonCommercial use only.
 
 ## Contact
 
