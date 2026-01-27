@@ -26,7 +26,7 @@ parser.on('data', async (uid) => {
     console.log(`Форматированный UID: '${formattedUID}'`);
 
     if (!userAddresses[formattedUID]) {
-        console.log("❌ UID не найден в системе. Доступ запрещён.");
+        console.log("UID не найден в системе. Доступ запрещён.");
         return;
     }
 
@@ -36,9 +36,9 @@ parser.on('data', async (uid) => {
         const role = await contract.methods.getUserRole(userAddress).call();
 
         if (role == 0 || role == 1 || role == 2) { 
-            console.log(`✅ Доступ разрешён! Роль: ${role}`);
+            console.log(`Доступ разрешён! Роль: ${role}`);
         } else {
-            console.log(`❌ Доступ запрещён! Роль не найдена.`);
+            console.log(`Доступ запрещён! Роль не найдена.`);
         }
 
     } catch (error) {
@@ -47,4 +47,5 @@ parser.on('data', async (uid) => {
 });
 
 /// UID:52DF716C'
+
 /// UID:6225576C
