@@ -1,14 +1,5 @@
 # Security Policy
 
-## Supported Versions
-
-The following table shows which versions of the project are currently supported with security updates.
-
-| Version | Supported          |
-| ------- | ------------------ |
-| Beta    | ✅                 |
-| < Beta  | ❌                 |
-
 ## Reporting a Vulnerability
 
 If you encounter a security issue, please follow the steps below to report it.
